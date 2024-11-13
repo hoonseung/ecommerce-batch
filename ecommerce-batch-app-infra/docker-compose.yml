@@ -1,0 +1,22 @@
+name: ecommerce-batch-app
+services:
+  postgresql:
+    image: postgres:latest
+    container_name: ecommerce-db
+    restart: always
+    shm_size: 128mb
+    ports:
+      - "5433:5432"
+
+    environment:
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=ecommerce-db
+      - POSTGRES_INITDB_ARGS=--data-checksums -E utf8 --no-locale
+      - TZ=Asia/Seoul
+
+    volumes:
+      - ./data/ecommerce-db:/var/lib/postgresql/data
+
+
+
