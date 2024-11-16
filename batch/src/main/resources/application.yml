@@ -18,7 +18,7 @@ spring:
 logging:
   level:
     root: info
-#    org.springframework.jdbc.core.JdbcTemplate: debug
+    org.springframework.jdbc.core.JdbcTemplate: debug
 #    org.springframework.jdbc.core.StatementCreatorUtils: debug
 
 prometheus:

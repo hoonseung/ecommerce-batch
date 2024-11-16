@@ -18,10 +18,13 @@ import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.database.builder.JdbcBatchItemWriterBuilder;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.builder.FlatFileItemReaderBuilder;
+import org.springframework.batch.item.support.SynchronizedItemStreamReader;
+import org.springframework.batch.item.support.builder.SynchronizedItemStreamReaderBuilder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.task.TaskExecutor;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
@@ -47,7 +50,8 @@ public class ProductUploadJobConfiguration {
     @Bean
     public Step productUploadStep(ItemReader<ProductUploadCsvRow> productUploadCsvRowItemReader,
                                   ItemProcessor<ProductUploadCsvRow, Product> productItemProcessor,
-                                  ItemWriter<Product> productItemWriter) {
+                                  ItemWriter<Product> productItemWriter,
+                                  TaskExecutor threadPoolTaskExecutor) {
         return new StepBuilder("productUploadStep", jobRepository)
                 .<ProductUploadCsvRow, Product>chunk(1000, platformTransactionManager)
                 .allowStartIfComplete(true)
@@ -55,20 +59,25 @@ public class ProductUploadJobConfiguration {
                 .reader(productUploadCsvRowItemReader)
                 .processor(productItemProcessor)
                 .writer(productItemWriter)
+                .taskExecutor(threadPoolTaskExecutor)
                 .build();
     }
 
     @Bean
     @StepScope
-    public FlatFileItemReader<ProductUploadCsvRow> productUploadCsvRowItemReader(
+    public SynchronizedItemStreamReader<ProductUploadCsvRow> productUploadCsvRowItemReader(
             @Value("#{jobParameters['inputFilePath']}") String path) {
-        return new FlatFileItemReaderBuilder<ProductUploadCsvRow>()
+        FlatFileItemReader<ProductUploadCsvRow> targetItemReader = new FlatFileItemReaderBuilder<ProductUploadCsvRow>()
                 .resource(new FileSystemResource(path))
                 .name("productUploadCsvRowItemReader")
                 .delimited().delimiter(",")
                 .names(ReflectionUtils.getFieldNames(ProductUploadCsvRow.class))
                 .targetType(ProductUploadCsvRow.class)
                 .linesToSkip(1)
+                .build();
+
+        return new SynchronizedItemStreamReaderBuilder<ProductUploadCsvRow>()
+                .delegate(targetItemReader)
                 .build();
     }
 
