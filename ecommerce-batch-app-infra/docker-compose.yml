@@ -18,5 +18,31 @@ services:
     volumes:
       - ./data/ecommerce-db:/var/lib/postgresql/data
 
+  prometheus:
+    image: prom/prometheus:v3.0.0
+    restart: always
+    container_name: ecommerce-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+
+  grafana:
+    image:
+      grafana/grafana:11.0.6
+    container_name: ecommerce-grafana
+    restart: always
+    ports:
+      - "3000:3000"
+
+
+  pushgateway:
+    image: prom/pushgateway:v1.10.0
+    container_name: ecommerce-pushgateway
+    restart: always
+    ports:
+      - "9091:9091"
+
+
 
 
