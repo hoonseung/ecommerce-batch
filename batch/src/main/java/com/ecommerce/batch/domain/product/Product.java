@@ -1,12 +1,16 @@
 package com.ecommerce.batch.domain.product;
 
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import com.ecommerce.batch.dto.ProductUploadCsvRow;
+import com.ecommerce.batch.util.DateUtils;
+import com.ecommerce.batch.util.RandomUtils;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -20,7 +24,7 @@ public class Product {
     private String productName;
     private LocalDate salesStartDate;
     private LocalDate salesEndDate;
-    private ProductStatus productStatus;
+    private String productStatus;
     private String brand;
     private String manufacturer;
 
@@ -29,4 +33,22 @@ public class Product {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
+
+    public static Product from(ProductUploadCsvRow row) {
+        return new Product(
+                RandomUtils.generateRandomProductId(),
+                row.sellerId(),
+                row.category(),
+                row.productName(),
+                DateUtils.parseToLocalDate(row.salesStartDate()),
+                DateUtils.parseToLocalDate(row.salesEndDate()),
+                row.productStatus(),
+                row.brand(),
+                row.manufacturer(),
+                row.salesPrice(),
+                row.stockQuantity(),
+                LocalDateTime.now(),
+                LocalDateTime.now()
+        );
+    }
 }
