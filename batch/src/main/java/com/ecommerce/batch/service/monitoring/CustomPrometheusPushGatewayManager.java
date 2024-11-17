@@ -1,4 +1,4 @@
-package com.ecommerce.batch.service.product.monitoring;
+package com.ecommerce.batch.service.monitoring;
 
 import io.prometheus.client.CollectorRegistry;
 import io.prometheus.client.exporter.PushGateway;

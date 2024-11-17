@@ -1,4 +1,4 @@
-package com.ecommerce.batch.service.product.monitoring;
+package com.ecommerce.batch.service.monitoring;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

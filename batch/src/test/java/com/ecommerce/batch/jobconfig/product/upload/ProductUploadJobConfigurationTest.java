@@ -41,6 +41,7 @@ class ProductUploadJobConfigurationTest extends BaseBatchIntergrationTest {
     private JobParameters jobParameters() throws IOException {
         return new JobParametersBuilder().addJobParameter("inputFilePath",
                         new JobParameter<>(input.getFile().getPath(), String.class, false))
+                .addJobParameter("gridSize", new JobParameter<>(3, Integer.class, false))
                 .toJobParameters();
     }
 
