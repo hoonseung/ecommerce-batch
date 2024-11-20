@@ -25,7 +25,6 @@ public class BatchApplication {
         taskExecutor.setCorePoolSize(128);
         taskExecutor.setMaxPoolSize(128);
         taskExecutor.setQueueCapacity(128);
-        taskExecutor.setThreadNamePrefix("product-");
         taskExecutor.setAllowCoreThreadTimeOut(true);
         taskExecutor.setWaitForTasksToCompleteOnShutdown(true);
         taskExecutor.setAwaitTerminationSeconds(10);

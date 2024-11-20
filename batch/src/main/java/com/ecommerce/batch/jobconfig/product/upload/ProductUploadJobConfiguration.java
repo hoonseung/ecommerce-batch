@@ -13,7 +13,6 @@ import org.springframework.batch.core.configuration.annotation.JobScope;
 import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.partition.PartitionHandler;
-import org.springframework.batch.core.partition.support.Partitioner;
 import org.springframework.batch.core.partition.support.TaskExecutorPartitionHandler;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
@@ -58,7 +57,9 @@ public class ProductUploadJobConfiguration {
             JobRepository jobRepository,
             @Qualifier("productUploadStep")
             Step productUploadStep,
-            Partitioner splitFilePartitioner,
+            @Qualifier("splitFilePartitioner")
+            SplitFilePartitioner splitFilePartitioner,
+            @Qualifier("filePartitionHandler")
             PartitionHandler filePartitionHandler) {
         return new StepBuilder("productUploadStepPartitionStep", jobRepository)
                 .partitioner(productUploadStep.getName(), splitFilePartitioner)

@@ -1,21 +1,23 @@
 package com.ecommerce.batch.util;
 
+import com.ecommerce.batch.dto.ProductDownloadCsvRow;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 @Slf4j
 public class FileUtils {
 
     public static List<File> splitCSV(String path, int fileCount) {
         long lineCount;
-        try (Stream<String> lines = Files.lines(Path.of(path), StandardCharsets.UTF_8)) {
+        try (Stream<String> lines = Files.lines(Path.of(path), UTF_8)) {
             lineCount = lines.count();
             long linesPerFile = (long) Math.ceil((double) lineCount / fileCount); // 5 / 2 = 3   3, 2   10 / 3 = 4, 4, 2
             return splitFiles(path, linesPerFile);
@@ -68,5 +70,20 @@ public class FileUtils {
         File tempFile = File.createTempFile(prefix, suffix);
         tempFile.deleteOnExit();
         return tempFile;
+    }
+
+    public static void mergeFiles(List<File> files, String path) {
+        String header = String.join(",", ReflectionUtils.getFieldNames(ProductDownloadCsvRow.class))
+                + "\n";
+        File newFile = new File(path);
+        try (BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(newFile))) {
+            outputStream.write(header.getBytes(UTF_8));
+            for (File file : files) {
+                log.info("병합 중 파일 명: {}", file.getName());
+                Files.copy(file.toPath(), outputStream);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

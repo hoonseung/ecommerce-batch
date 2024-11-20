@@ -12,7 +12,8 @@ create table products
     sales_price      int          not null,
     stock_quantity   int       default 0,
     created_at       timestamp default current_timestamp,
-    updated_at       timestamp default current_timestamp
+    updated_at       timestamp default current_timestamp,
+    primary key (product_id)
 );
 
 create index idx_products_product_status on products (product_status);

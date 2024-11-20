@@ -28,7 +28,6 @@ public class CustomPrometheusPushGatewayManager extends PrometheusPushGatewayMan
 
     public void pushMetrics(Map<String, String> groupingKeys) {
         try {
-            log.info("pushgateway push add");
             pushGateway.pushAdd(collectorRegistry, job, groupingKeys);
         } catch (IOException e) {
             log.error("e: {}", e.getMessage(), e);

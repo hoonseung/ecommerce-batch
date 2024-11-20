@@ -4,14 +4,12 @@ package com.ecommerce.batch.domain.product;
 import com.ecommerce.batch.dto.ProductUploadCsvRow;
 import com.ecommerce.batch.util.DateUtils;
 import com.ecommerce.batch.util.RandomUtils;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+@Setter
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -50,5 +48,25 @@ public class Product {
                 LocalDateTime.now(),
                 LocalDateTime.now()
         );
+    }
+
+    public static Product of(String productId, Long sellerId, String category, String productName,
+                             LocalDate salesStartDate, LocalDate salesEndDate, String productStatus,
+                             String brand, String manufacturer, int salesPrice, int stockQuantity,
+                             LocalDateTime createdAt, LocalDateTime updatedAt) {
+        return new Product(
+                productId,
+                sellerId,
+                category,
+                productName,
+                salesStartDate,
+                salesEndDate,
+                productStatus,
+                brand,
+                manufacturer,
+                salesPrice,
+                stockQuantity,
+                createdAt,
+                updatedAt);
     }
 }

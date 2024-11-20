@@ -3,6 +3,13 @@
   <component name="CsvFileAttributes">
     <option name="attributeMap">
       <map>
+        <entry key="/batch/src/test/resources/data/products_downloaded_expected.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="/batch/src/test/resources/data/products_for_upload.csv">
           <value>
             <Attribute>
