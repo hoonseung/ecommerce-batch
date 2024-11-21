@@ -1,0 +1,7 @@
+### 상품 단건 조회
+GET http://localhost:8080/v1/products/1732101407692-623b6aab-8613-4b4b-a105-3b7a25e5955c
+Accept: application/json
+
+### 상품 페이징 조회
+GET http://localhost:8080/v1/products?page=0&size=10&sort=productId,asc
+Accept: application/json
