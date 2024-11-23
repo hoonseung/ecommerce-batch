@@ -1,0 +1,22 @@
+### 주문 생성
+POST http://localhost:8080/v1/orders
+Content-Type: application/json
+
+{
+  "customerId": 1,
+  "paymentMethod": "DEBIT_CARD",
+  "orderProducts": [
+    {
+      "productId": "1732101407676-37e83de8-94f0-489b-b5c1-03071c732e2d",
+      "quantity": 10
+    },
+    {
+      "productId": "1732101407678-3fe210d7-bcc6-41e9-98c9-7395ce0a5bc7",
+      "quantity": 10
+    },
+    {
+      "productId": "1732101407678-315e79ba-a502-4c46-83f7-2c89ecdd6bd0",
+      "quantity": 10
+    }
+  ]
+}
