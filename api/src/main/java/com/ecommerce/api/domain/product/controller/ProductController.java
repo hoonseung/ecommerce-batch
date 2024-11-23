@@ -1,7 +1,7 @@
 package com.ecommerce.api.domain.product.controller;
 
-import com.ecommerce.api.domain.product.dto.ProductResult;
-import com.ecommerce.api.domain.product.dto.api.ProductResponse;
+import com.ecommerce.api.domain.api.ApiResponse;
+import com.ecommerce.api.domain.product.dto.ProductResponse;
 import com.ecommerce.api.domain.product.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -21,14 +21,17 @@ public class ProductController {
     private final ProductService productService;
 
     @GetMapping("/{productId}")
-    public ProductResponse<ProductResult> findOneProduct(@PathVariable("productId") String productId) {
-        return ProductResponse.success(productService.findOneProduct(productId));
+    public ApiResponse<ProductResponse> findOneProduct(@PathVariable("productId") String productId) {
+        ProductResponse productResponse = ProductResponse.from(productService.findOneProduct(productId));
+        return ApiResponse.success(productResponse);
     }
 
     @GetMapping("")
-    public ProductResponse<Page<ProductResult>> findAllProduct(
+    public ApiResponse<Page<ProductResponse>> findAllProduct(
             @PageableDefault(page = 0, size = 10, sort = "productId", direction = Sort.Direction.ASC)
             Pageable pageable) {
-        return ProductResponse.success(productService.findAllProduct(pageable));
+        Page<ProductResponse> productResponses = productService.findAllProduct(pageable)
+                .map(ProductResponse::from);
+        return ApiResponse.success(productResponses);
     }
 }
