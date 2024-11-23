@@ -1,4 +1,4 @@
-### 주문 생성
+### 주문 생성 결제 성공용
 POST http://localhost:8080/v1/orders
 Content-Type: application/json
 
@@ -7,16 +7,51 @@ Content-Type: application/json
   "paymentMethod": "DEBIT_CARD",
   "orderProducts": [
     {
-      "productId": "1732101407676-37e83de8-94f0-489b-b5c1-03071c732e2d",
-      "quantity": 10
-    },
-    {
-      "productId": "1732101407678-3fe210d7-bcc6-41e9-98c9-7395ce0a5bc7",
-      "quantity": 10
-    },
-    {
-      "productId": "1732101407678-315e79ba-a502-4c46-83f7-2c89ecdd6bd0",
+      "productId": "1732101407679-0db52c61-f550-4d5d-b465-f1563a5c96b3",
       "quantity": 10
     }
   ]
 }
+
+### 주문 생성 결제 실패용
+POST http://localhost:8080/v1/orders
+Content-Type: application/json
+
+{
+  "customerId": 1,
+  "paymentMethod": "DEBIT_CARD",
+  "orderProducts": [
+    {
+      "productId": "1732101407679-0db52c61-f550-4d5d-b465-f1563a5c96b3",
+      "quantity": 10
+    },
+    {
+      "productId": "1732101407679-0d0e0ed3-4491-426f-a56c-35e6fdf1976c",
+      "quantity": 10
+    }
+  ]
+}
+
+### 주문 결제 성공
+POST http://localhost:8080/v1/orders/5/payment
+Content-Type: application/json
+
+{
+  "success": true
+}
+
+### 주문 결제 실패
+POST http://localhost:8080/v1/orders/6/payment
+Content-Type: application/json
+
+{
+  "success": false
+}
+
+### 주문 완료
+POST http://localhost:8080/v1/orders/5/complete
+Accept: application/json
+
+### 주문 취소
+POST http://localhost:8080/v1/orders/6/cancel
+Accept: application/json
