@@ -2,6 +2,7 @@ package com.ecommerce.api.domain.order.dto;
 
 import com.ecommerce.api.domain.orderProduct.dto.OrderProductRequest;
 import com.ecommerce.api.domain.payment.PaymentMethod;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.List;
 
@@ -11,6 +12,7 @@ public record OrderRequest(
         List<OrderProductRequest> orderProducts
 ) {
 
+    @JsonIgnore
     public List<OrderProductCommand> getOrderProductCommandList() {
         return orderProducts.stream().map(OrderProductCommand::from).toList();
     }

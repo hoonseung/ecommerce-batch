@@ -38,7 +38,8 @@ create table orders
     order_id     bigserial,
     order_date   timestamp   not null,
     order_status varchar(50) not null,
-    customer_id  bigint
+    customer_id  bigint,
+    primary key (order_id)
 );
 create index idx_orders_customer_id on orders (customer_id);
 
@@ -51,8 +52,11 @@ create table order_products
     quantity         int          not null,
     primary key (order_product_id)
 );
+create index idx_order_products_order_id on order_products (order_id);
 create index idx_order_products_product_id on order_products (product_id);
-create unique index idx_order_products_order_id_product_id on order_products (order_id, product_id);
+
+
+
 
 
 
