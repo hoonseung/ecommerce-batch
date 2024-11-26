@@ -2,7 +2,7 @@ package com.ecommerce.batch.jobconfig.product.download;
 
 import com.ecommerce.batch.domain.file.PartitionedFileRepository;
 import com.ecommerce.batch.domain.product.Product;
-import com.ecommerce.batch.dto.ProductDownloadCsvRow;
+import com.ecommerce.batch.dto.product.ProductDownloadCsvRow;
 import com.ecommerce.batch.service.product.ProductDownloadPartitioner;
 import com.ecommerce.batch.util.FileUtils;
 import com.ecommerce.batch.util.ReflectionUtils;

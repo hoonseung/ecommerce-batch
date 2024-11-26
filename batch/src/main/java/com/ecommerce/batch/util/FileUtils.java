@@ -1,6 +1,6 @@
 package com.ecommerce.batch.util;
 
-import com.ecommerce.batch.dto.ProductDownloadCsvRow;
+import com.ecommerce.batch.dto.product.ProductDownloadCsvRow;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
@@ -16,18 +16,28 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 public class FileUtils {
 
     public static List<File> splitCSV(String path, int fileCount) {
+        return splitFileAndLineCount(path, fileCount, true, ".csv");
+    }
+
+    public static List<File> splitLog(String path, int fileCount) {
+        return splitFileAndLineCount(path, fileCount, false, ".log");
+    }
+
+
+    public static List<File> splitFileAndLineCount(String path, int fileCount, boolean ignoreLine,
+                                                   String suffix) {
         long lineCount;
         try (Stream<String> lines = Files.lines(Path.of(path), UTF_8)) {
             lineCount = lines.count();
             long linesPerFile = (long) Math.ceil((double) lineCount / fileCount); // 5 / 2 = 3   3, 2   10 / 3 = 4, 4, 2
-            return splitFiles(path, linesPerFile);
+            return splitFiles(path, linesPerFile, ignoreLine, suffix);
         } catch (IOException e) {
             log.error("e: {}", e.getMessage(), e);
             throw new RuntimeException(e);
         }
     }
 
-    private static List<File> splitFiles(String path, long linesPerFile) throws IOException {
+    private static List<File> splitFiles(String path, long linesPerFile, boolean ignoreLine, String suffix) throws IOException {
         List<File> fileList = new ArrayList<>();
         BufferedWriter writer = null;
         try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
@@ -38,12 +48,12 @@ public class FileUtils {
             int lineCount = 0;
 
             while ((line = reader.readLine()) != null) {
-                if (firstLine) {
+                if (ignoreLine && firstLine) {
                     firstLine = false;
                     continue;
                 }
                 if (shouldFileCreate) {
-                    File splitFile = createTempFile("split_" + (fileIndex++) + "_", ".csv");
+                    File splitFile = createTempFile("split_" + (fileIndex++) + "_", suffix);
                     writer = new BufferedWriter(new FileWriter(splitFile));
                     fileList.add(splitFile);
                     shouldFileCreate = false;
@@ -86,4 +96,6 @@ public class FileUtils {
             throw new RuntimeException(e);
         }
     }
+
+
 }

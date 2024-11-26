@@ -1,6 +1,6 @@
 package com.ecommerce.batch.util;
 
-import com.ecommerce.batch.dto.ProductDownloadCsvRow;
+import com.ecommerce.batch.dto.product.ProductDownloadCsvRow;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.io.TempDir;

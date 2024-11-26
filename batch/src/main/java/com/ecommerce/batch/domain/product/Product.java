@@ -1,7 +1,7 @@
 package com.ecommerce.batch.domain.product;
 
 
-import com.ecommerce.batch.dto.ProductUploadCsvRow;
+import com.ecommerce.batch.dto.product.ProductUploadCsvRow;
 import com.ecommerce.batch.util.DateUtils;
 import com.ecommerce.batch.util.RandomUtils;
 import lombok.*;

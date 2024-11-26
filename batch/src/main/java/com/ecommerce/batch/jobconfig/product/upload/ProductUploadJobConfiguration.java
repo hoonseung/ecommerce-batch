@@ -1,7 +1,7 @@
 package com.ecommerce.batch.jobconfig.product.upload;
 
 import com.ecommerce.batch.domain.product.Product;
-import com.ecommerce.batch.dto.ProductUploadCsvRow;
+import com.ecommerce.batch.dto.product.ProductUploadCsvRow;
 import com.ecommerce.batch.service.file.SplitFilePartitioner;
 import com.ecommerce.batch.util.FileUtils;
 import com.ecommerce.batch.util.ReflectionUtils;

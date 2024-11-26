@@ -1,5 +1,6 @@
 package com.ecommerce.batch;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.prometheus.client.exporter.PushGateway;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
@@ -29,5 +30,10 @@ public class BatchApplication {
         taskExecutor.setWaitForTasksToCompleteOnShutdown(true);
         taskExecutor.setAwaitTerminationSeconds(10);
         return taskExecutor;
+    }
+
+    @Bean
+    public ObjectMapper objectMapper() {
+        return new ObjectMapper();
     }
 }

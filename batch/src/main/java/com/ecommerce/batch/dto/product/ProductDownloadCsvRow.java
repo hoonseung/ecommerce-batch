@@ -1,4 +1,4 @@
-package com.ecommerce.batch.dto;
+package com.ecommerce.batch.dto.product;
 
 import com.ecommerce.batch.domain.product.Product;
 import com.ecommerce.batch.util.DateUtils;
