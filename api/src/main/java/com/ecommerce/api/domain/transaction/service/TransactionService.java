@@ -1,6 +1,8 @@
-package com.ecommerce.api.domain.transaction;
+package com.ecommerce.api.domain.transaction.service;
 
 import com.ecommerce.api.domain.order.dto.OrderResult;
+import com.ecommerce.api.domain.transaction.TransactionStatus;
+import com.ecommerce.api.domain.transaction.TransactionType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
