@@ -67,7 +67,66 @@ create table transaction_reports
     avg_product_count         decimal(15, 0) not null,
     total_product_quantity    bigint         not null,
     primary key (transaction_date, transaction_type)
-)
+);
+
+---
+
+create table brand_reports
+(
+    stat_date              date           not null,
+    brand                  varchar(255)   not null,
+    product_count          int            not null,
+    avg_sales_price        decimal(15, 0) not null,
+    max_sales_price        decimal(15, 0) not null,
+    min_sales_price        decimal(15, 0) not null,
+    total_stock_quantity   int            not null,
+    avg_stock_quantity     decimal(15, 0) not null,
+    potential_sales_amount decimal(20, 0) not null,
+    primary key (stat_date, brand)
+);
+
+SELECT brand,
+       COUNT(*)                          as product_count,
+       AVG(sales_price)                  as avg_sales_price,
+       MAX(sales_price)                  as max_sales_price,
+       MIN(sales_price)                  as min_sales_price,
+       SUM(stock_quantity)               as total_stock_quantity,
+       AVG(stock_quantity)               as avg_stock_quantity,
+       SUM(sales_price * stock_quantity) as potential_sales_amount
+FROM products
+GROUP BY brand;
+
+create table category_reports
+(
+    stat_date              date           not null,
+    category               varchar(255)   not null,
+    product_count          int            not null,
+    avg_sales_price        decimal(15, 0) not null,
+    max_sales_price        decimal(15, 0) not null,
+    min_sales_price        decimal(15, 0) not null,
+    total_stock_quantity   int            not null,
+    potential_sales_amount decimal(20, 0) not null,
+    primary key (stat_date, category)
+);
+
+create table manufacturer_reports
+(
+    stat_date              date           not null,
+    manufacturer           varchar(255)   not null,
+    product_count          int            not null,
+    avg_sales_price        decimal(15, 0) not null,
+    potential_sales_amount decimal(20, 0) not null,
+    primary key (stat_date, manufacturer)
+);
+
+create table product_status_reports
+(
+    stat_date          date           not null,
+    product_status     varchar(50)    not null,
+    product_count      int            not null,
+    avg_stock_quantity decimal(15, 0) not null,
+    primary key (stat_date, product_status)
+);
 
 
 
