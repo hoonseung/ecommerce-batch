@@ -200,6 +200,13 @@ gradle-app.setting
 # Java heap dump
 *.hprof
 
+# csv file
+*.csv
+
+# http file
+*.http
+
+
 /ecommerce-batch-app-infra/data/
 
 # End of https://www.toptal.com/developers/gitignore/api/java,gradle,intellij,macos
