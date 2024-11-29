@@ -24,6 +24,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="/data/random_product.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="/data/random_test_product.csv">
           <value>
             <Attribute>

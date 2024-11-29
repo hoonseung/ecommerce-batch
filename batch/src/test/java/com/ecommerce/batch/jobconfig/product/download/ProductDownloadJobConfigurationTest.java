@@ -1,7 +1,7 @@
 package com.ecommerce.batch.jobconfig.product.download;
 
 import com.ecommerce.batch.BaseBatchIntergrationTest;
-import com.ecommerce.batch.domain.product.Product;
+import com.ecommerce.batch.domain.product.entity.Product;
 import com.ecommerce.batch.domain.product.ProductStatus;
 import com.ecommerce.batch.service.product.ProductService;
 import com.ecommerce.batch.util.DateUtils;

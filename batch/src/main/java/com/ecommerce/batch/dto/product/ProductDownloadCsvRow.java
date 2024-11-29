@@ -1,6 +1,6 @@
 package com.ecommerce.batch.dto.product;
 
-import com.ecommerce.batch.domain.product.Product;
+import com.ecommerce.batch.domain.product.entity.Product;
 import com.ecommerce.batch.util.DateUtils;
 
 public record ProductDownloadCsvRow(
@@ -29,7 +29,7 @@ public record ProductDownloadCsvRow(
                 product.getProductName(),
                 DateUtils.formatToString(product.getSalesStartDate()),
                 DateUtils.formatToString(product.getSalesEndDate()),
-                product.getProductStatus(),
+                product.getProductStatus().name(),
                 product.getBrand(),
                 product.getManufacturer(),
                 product.getSalesPrice(),

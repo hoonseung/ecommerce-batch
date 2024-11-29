@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/api/ecommerce-batch.api.main.iml" filepath="$PROJECT_DIR$/.idea/modules/api/ecommerce-batch.api.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/batch/ecommerce-batch.batch.main.iml" filepath="$PROJECT_DIR$/.idea/modules/batch/ecommerce-batch.batch.main.iml" />
     </modules>
   </component>
 </project>

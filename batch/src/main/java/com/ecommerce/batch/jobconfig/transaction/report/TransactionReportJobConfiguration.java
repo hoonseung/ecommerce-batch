@@ -1,13 +1,14 @@
 package com.ecommerce.batch.jobconfig.transaction.report;
 
 
-import com.ecommerce.batch.domain.transaction.report.TransactionReport;
-import com.ecommerce.batch.domain.transaction.report.TransactionReportMemoryRepository;
+import com.ecommerce.batch.domain.transaction.report.entity.TransactionReport;
+import com.ecommerce.batch.domain.transaction.report.repository.TransactionReportMemoryRepository;
 import com.ecommerce.batch.dto.transaction.log.TransactionLog;
 import com.ecommerce.batch.service.file.SplitFilePartitioner;
 import com.ecommerce.batch.service.transaction.TransactionReportAccumulator;
 import com.ecommerce.batch.util.FileUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.persistence.EntityManagerFactory;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecutionListener;
 import org.springframework.batch.core.Step;
@@ -21,8 +22,8 @@ import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
-import org.springframework.batch.item.database.JdbcBatchItemWriter;
-import org.springframework.batch.item.database.builder.JdbcBatchItemWriterBuilder;
+import org.springframework.batch.item.database.JpaItemWriter;
+import org.springframework.batch.item.database.builder.JpaItemWriterBuilder;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.builder.FlatFileItemReaderBuilder;
 import org.springframework.batch.item.support.IteratorItemReader;
@@ -36,7 +37,6 @@ import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.transaction.PlatformTransactionManager;
 
-import javax.sql.DataSource;
 import java.io.File;
 
 @Configuration
@@ -160,14 +160,10 @@ public class TransactionReportJobConfiguration {
     }
 
     @Bean
-    public JdbcBatchItemWriter<TransactionReport> reportWriter(DataSource dataSource) {
-        String sql = "INSERT INTO transaction_reports" +
-                " (transaction_date, transaction_type, transaction_count, total_amount, customer_count, order_count, payment_method_kind_count, avg_product_count, total_product_quantity) " +
-                "VALUES (:transactionDate, :transactionType, :transactionCount, :totalAmount, :customerCount, :orderCount, :paymentMethodKindCount, :avgProductCount, :totalProductQuantity)";
-        return new JdbcBatchItemWriterBuilder<TransactionReport>()
-                .dataSource(dataSource)
-                .beanMapped()
-                .sql(sql)
+    public JpaItemWriter<TransactionReport> reportWriter(EntityManagerFactory entityManagerFactory) {
+        return new JpaItemWriterBuilder<TransactionReport>()
+                .entityManagerFactory(entityManagerFactory)
+                .usePersist(false)
                 .build();
     }
 

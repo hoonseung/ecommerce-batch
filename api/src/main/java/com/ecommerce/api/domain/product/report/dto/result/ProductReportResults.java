@@ -19,9 +19,9 @@ public record ProductReportResults(
                                           List<ManufacturerReport> manufacturerReports,
                                           List<ProductStatusReport> productStatusReports) {
         return new ProductReportResults(
-                brandReports.stream().map(com.ecommerce.api.domain.product.report.dto.result.BrandReportResult::from).toList(),
+                brandReports.stream().map(BrandReportResult::from).toList(),
                 categoryReports.stream().map(CategoryReportResult::from).toList(),
-                manufacturerReports.stream().map(com.ecommerce.api.domain.product.report.dto.result.ManufacturerReportResult::from).toList(),
+                manufacturerReports.stream().map(ManufacturerReportResult::from).toList(),
                 productStatusReports.stream().map(ProductStatusReportResult::from).toList()
         );
     }

@@ -1,8 +1,8 @@
 package com.ecommerce.batch.service.transaction;
 
 
-import com.ecommerce.batch.domain.transaction.report.TransactionReport;
-import com.ecommerce.batch.domain.transaction.report.TransactionReportMemoryRepository;
+import com.ecommerce.batch.domain.transaction.report.entity.TransactionReport;
+import com.ecommerce.batch.domain.transaction.report.repository.TransactionReportMemoryRepository;
 import com.ecommerce.batch.dto.transaction.log.TransactionLog;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

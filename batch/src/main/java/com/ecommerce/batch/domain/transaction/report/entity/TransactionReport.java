@@ -1,8 +1,8 @@
-package com.ecommerce.batch.domain.transaction.report;
+package com.ecommerce.batch.domain.transaction.report.entity;
 
 import com.ecommerce.batch.dto.transaction.log.TransactionLog;
 import com.ecommerce.batch.util.DateUtils;
-import jakarta.persistence.Transient;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -13,10 +13,15 @@ import java.util.Set;
 @Setter
 @Getter
 @AllArgsConstructor(staticName = "of")
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@IdClass(TransactionReportId.class)
+@Table(name = "transaction_reports")
+@Entity
 public class TransactionReport {
     // transactionDate + transactionType = key
+    @Id
     private LocalDate transactionDate;
+    @Id
     private String transactionType;
 
     private Long transactionCount;

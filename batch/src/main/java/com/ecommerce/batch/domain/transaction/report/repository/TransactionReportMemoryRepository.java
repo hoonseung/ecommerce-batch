@@ -1,5 +1,6 @@
-package com.ecommerce.batch.domain.transaction.report;
+package com.ecommerce.batch.domain.transaction.report.repository;
 
+import com.ecommerce.batch.domain.transaction.report.entity.TransactionReport;
 import org.springframework.stereotype.Repository;
 
 import java.util.Iterator;

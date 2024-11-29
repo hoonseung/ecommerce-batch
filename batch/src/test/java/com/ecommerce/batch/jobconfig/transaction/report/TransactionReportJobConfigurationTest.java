@@ -1,6 +1,7 @@
 package com.ecommerce.batch.jobconfig.transaction.report;
 
 import com.ecommerce.batch.BaseBatchIntergrationTest;
+import com.ecommerce.batch.domain.transaction.report.repository.TransactionReportRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.batch.core.*;
@@ -19,6 +20,8 @@ class TransactionReportJobConfigurationTest extends BaseBatchIntergrationTest {
 
     @Value("classpath:logs/transaction.log")
     private Resource resource;
+    @Autowired
+    private TransactionReportRepository transactionReportRepository;
 
     @Test
     void testJob(@Autowired @Qualifier("transactionReportJob") Job transactionReportJob) throws Exception {
@@ -28,7 +31,7 @@ class TransactionReportJobConfigurationTest extends BaseBatchIntergrationTest {
 
         Assertions.assertAll(
                 () -> assertJobCompleted(jobExecution),
-                () -> assertThat(jdbcTemplate.queryForObject("SELECT COUNT(*) FROM transaction_reports", Integer.class)).isEqualTo(3)
+                () -> assertThat(transactionReportRepository.count()).isEqualTo(3)
         );
     }
 

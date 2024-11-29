@@ -5,6 +5,7 @@ import com.ecommerce.batch.service.product.ProductService;
 import org.junit.jupiter.api.Test;
 import org.springframework.batch.core.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.test.context.TestPropertySource;
@@ -26,7 +27,7 @@ class ProductUploadJobConfigurationTest extends BaseBatchIntergrationTest {
 
 
     @Test
-    void testJob(@Autowired Job productUploadJob) throws Exception {
+    void testJob(@Autowired @Qualifier("productUploadJob") Job productUploadJob) throws Exception {
         JobParameters jobParameters = jobParameters();
         jobLauncherTestUtils.setJob(productUploadJob);
         JobExecution jobExecution = jobLauncherTestUtils.launchJob(jobParameters);

@@ -1,11 +1,12 @@
 package com.ecommerce.batch.jobconfig.product.download;
 
 import com.ecommerce.batch.domain.file.PartitionedFileRepository;
-import com.ecommerce.batch.domain.product.Product;
+import com.ecommerce.batch.domain.product.entity.Product;
 import com.ecommerce.batch.dto.product.ProductDownloadCsvRow;
 import com.ecommerce.batch.service.product.ProductDownloadPartitioner;
 import com.ecommerce.batch.util.FileUtils;
 import com.ecommerce.batch.util.ReflectionUtils;
+import jakarta.persistence.EntityManagerFactory;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecutionListener;
 import org.springframework.batch.core.Step;
@@ -21,10 +22,8 @@ import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
-import org.springframework.batch.item.database.JdbcPagingItemReader;
-import org.springframework.batch.item.database.PagingQueryProvider;
-import org.springframework.batch.item.database.builder.JdbcPagingItemReaderBuilder;
-import org.springframework.batch.item.database.support.SqlPagingQueryProviderFactoryBean;
+import org.springframework.batch.item.database.JpaPagingItemReader;
+import org.springframework.batch.item.database.builder.JpaPagingItemReaderBuilder;
 import org.springframework.batch.item.file.FlatFileItemWriter;
 import org.springframework.batch.item.file.builder.FlatFileItemWriterBuilder;
 import org.springframework.batch.item.support.SynchronizedItemStreamWriter;
@@ -38,7 +37,6 @@ import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.transaction.PlatformTransactionManager;
 
-import javax.sql.DataSource;
 import java.io.File;
 import java.util.Map;
 
@@ -99,7 +97,7 @@ public class ProductDownloadJobConfiguration {
                                   ItemWriter<ProductDownloadCsvRow> productDownloadFileWriter,
                                   TaskExecutor threadPoolTaskExecutor) {
         return new StepBuilder("productPagingStep", jobRepository)
-                .<Product, ProductDownloadCsvRow>chunk(10000, platformTransactionManager)
+                .<Product, ProductDownloadCsvRow>chunk(100000, platformTransactionManager)
                 .listener(stepExecutionListener)
                 .allowStartIfComplete(true)
                 .reader(productPagingItemReader)
@@ -134,31 +132,17 @@ public class ProductDownloadJobConfiguration {
 
     @Bean
     @StepScope
-    public JdbcPagingItemReader<Product> productPagingItemReader(
+    public JpaPagingItemReader<Product> productPagingItemReader(
             @Value("#{stepExecutionContext['minId']}") String minId,
             @Value("#{stepExecutionContext['maxId']}") String maxId,
-            DataSource dataSource,
-            PagingQueryProvider productPagingQueryProvider) {
-        return new JdbcPagingItemReaderBuilder<Product>()
+            EntityManagerFactory entityManagerFactory) {
+        return new JpaPagingItemReaderBuilder<Product>()
                 .name("productItemReader")
-                .dataSource(dataSource)
+                .entityManagerFactory(entityManagerFactory)
+                .queryString("SELECT p FROM Product p WHERE p.productId BETWEEN :minId AND :maxId ORDER BY p.productId")
                 .parameterValues(Map.of("minId", minId, "maxId", maxId))
-                .queryProvider(productPagingQueryProvider)
-                .beanRowMapper(Product.class)
-                .pageSize(1000)
+                .pageSize(100000)
                 .build();
-    }
-
-    @Bean
-    public SqlPagingQueryProviderFactoryBean productPagingQueryProvider(DataSource dataSource) {
-        SqlPagingQueryProviderFactoryBean provider = new SqlPagingQueryProviderFactoryBean();
-        provider.setDataSource(dataSource);
-        provider.setSelectClause("product_id, seller_id, category, product_name, sales_start_date, sales_end_date, product_status, " +
-                "brand, manufacturer, sales_price, stock_quantity, created_at, updated_at");
-        provider.setFromClause("from products");
-        provider.setWhereClause("where product_id >= :minId and product_id <= :maxId");
-        provider.setSortKey("product_id");
-        return provider;
     }
 
     @Bean

@@ -1,5 +1,6 @@
 package com.ecommerce.batch.domain.transaction.report;
 
+import com.ecommerce.batch.domain.transaction.report.entity.TransactionReport;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;

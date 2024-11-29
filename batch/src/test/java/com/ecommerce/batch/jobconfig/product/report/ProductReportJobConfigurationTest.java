@@ -1,10 +1,10 @@
 package com.ecommerce.batch.jobconfig.product.report;
 
 import com.ecommerce.batch.BaseBatchIntergrationTest;
-import com.ecommerce.batch.domain.product.Product;
 import com.ecommerce.batch.domain.product.ProductStatus;
-import com.ecommerce.batch.service.monitoring.ProductReportService;
+import com.ecommerce.batch.domain.product.entity.Product;
 import com.ecommerce.batch.service.product.ProductService;
+import com.ecommerce.batch.service.product.report.ProductReportService;
 import com.ecommerce.batch.util.DateUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
